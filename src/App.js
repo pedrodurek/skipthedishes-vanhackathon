@@ -6,11 +6,13 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import NotFound from './views/NotFound'
 import Home from './views/Home'
 import Products from './views/Products'
+import Cart from './views/Cart'
 import Header from './components/Header'
 import LoginForm from './components/LoginForm'
 import Footer from './components/Footer'
 import SimpleModal from './components/SimpleModal'
 import { fetchCreateUser, fetchLogin, logout } from './actions/login'
+import { clearCart } from './actions/cart'
 import './App.css'
 
 class App extends Component {
@@ -21,6 +23,12 @@ class App extends Component {
                 exact: true,
                 component: Products,
                 title: 'products'
+            },
+            {
+                path: '/cart',
+                exact: true,
+                component: Cart,
+                title: 'cart'
             },
             {
                 path: '/',
@@ -74,6 +82,7 @@ class App extends Component {
 
     handleLogout = () => {
         this.props.logout()
+        this.props.clearCart()
         this.props.history.push('/')
     }
 
@@ -88,6 +97,7 @@ class App extends Component {
                     handleLogout={this.handleLogout}
                     logged={login.token}
                     nProductsInCart={nProductsInCart}
+                    handleCart={() => this.props.history.push('/cart')}
                 />
                 <SimpleModal
                     showModal={showSimpleModal}
@@ -123,6 +133,7 @@ const mapDispatchToProps = {
     submitLogin: () => submit('initializeLoginForm'),
     fetchCreateUser,
     fetchLogin,
+    clearCart,
     logout
 }
 

@@ -7,8 +7,8 @@ const Header = ({
     handleLogin,
     handleRegister,
     handleLogout,
-    handleCart,
     nProductsInCart,
+    handleCart,
     logged
 }) => (
     <div className="header-container">
@@ -17,10 +17,10 @@ const Header = ({
         </div>
         {logged ? (
             <div className="header-buttons">
-                <Button onClick={handleLogout}>Logout</Button>
                 <Button onClick={handleCart}>
                     {`(${nProductsInCart}) Cart`}
                 </Button>
+                <Button onClick={handleLogout}>Logout</Button>
             </div>
         ) : (
             <div className="header-buttons">

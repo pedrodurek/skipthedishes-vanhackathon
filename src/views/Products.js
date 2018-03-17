@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchProducts } from '../actions/products'
 import { addToCart } from '../actions/cart'
-import '../styles/Products.css'
-import Card from '../components/Card'
+import ShowProduct from '../components/ShowProduct'
 import FaCartPlus from 'react-icons/lib/fa/cart-plus'
+import Card from '../components/Card'
 import { Button } from 'react-bootstrap'
+import Notifications, { notify } from 'react-notify-toast'
+import '../styles/Products.css'
 
 class Products extends Component {
     componentDidMount() {
@@ -19,21 +21,26 @@ class Products extends Component {
     render() {
         const { products, addToCart } = this.props
         console.log(products)
-        return <div className="products-container">
+        return (
+            <div className="products-container">
+                <Notifications />
                 {products.map((product) => (
                     <Card
                         className="products-item"
                         key={product.id}
                         title={product.name}
                     >
-                        <div>{product.description}</div>
-                        <div>Price: ${product.price}</div>
-                        <Button onClick={() => addToCart(product)}>
+                        <ShowProduct product={product} addToCart={addToCart} />
+                        <Button onClick={() => {
+                            addToCart(product)
+                            notify.show(`Product "${product.name}" inserted in cart!`, 'success', 1000)
+                        }}>
                             <FaCartPlus size={20} />
                         </Button>
                     </Card>
                 ))}
             </div>
+        )
     }
 }
 
